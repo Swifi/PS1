@@ -185,11 +185,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickh\\source\\repos\\PS1\\FormulaEvaluator\\FormulaEvaluator.csproj",
+      "projectUniqueName": "C:\\Users\\nickh\\eclipse-workspace\\PS1\\FormulaEvaluator\\FormulaEvaluator.csproj",
       "projectName": "FormulaEvaluator",
-      "projectPath": "C:\\Users\\nickh\\source\\repos\\PS1\\FormulaEvaluator\\FormulaEvaluator.csproj",
+      "projectPath": "C:\\Users\\nickh\\eclipse-workspace\\PS1\\FormulaEvaluator\\FormulaEvaluator.csproj",
       "packagesPath": "C:\\Users\\nickh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nickh\\source\\repos\\PS1\\FormulaEvaluator\\obj\\",
+      "outputPath": "C:\\Users\\nickh\\eclipse-workspace\\PS1\\FormulaEvaluator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
