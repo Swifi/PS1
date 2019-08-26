@@ -13,7 +13,7 @@ namespace EvaluatorConsole
         {
             //simple test
             Lookup l1 = new Lookup(Lookup);
-            string temp = "5 + 4 * (6 + 2)";
+            string temp = "55 + 4 * (10 + 10)";
             Console.WriteLine(Evaluate(temp, l1));
             Console.Read();
         }

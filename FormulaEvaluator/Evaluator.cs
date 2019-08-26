@@ -31,35 +31,54 @@ namespace FormulaEvaluator
                 //TODO: add way for once we detect something has gone through to just skip to the next string
                 string temp = s.Trim();
                 //find out what we need to do with the variable
+
                 //see if it's an integer
-                checkInt(temp, operators, values);
+                if (checkInt(temp, operators, values))
+                {
+                    continue;
+                }
 
                 //see if it's a variable
-                checkVar(temp, variableEvaluator, operators, values);
+                else if (checkVar(temp, variableEvaluator, operators, values))
+                {
+                    continue;
+                }
 
                 //see if it's a + or -
-                checkAddOrSub(temp, operators, values);
+                else if (checkAddOrSub(temp, operators, values))
+                {
+                    continue;
+                }
 
                 //see if it's a * or / 
-                checkMulOrDiv(temp, operators);
+                else if (checkMulOrDiv(temp, operators))
+                {
+                    continue;
+                }
 
                 //see if its a (
-                checkLeftPar(temp, operators);
+                else if (checkLeftPar(temp, operators))
+                {
+                    continue;
+                }
 
                 // see it's a )
-                checkRightPar(temp, operators, values);
+                else if (checkRightPar(temp, operators, values))
+                {
+                    continue;
+                }
 
                 //If it isn't whitespace, and it's not one of the others, throw an exception
-                /*if (temp != " ")
+                else if (temp != "")
                 {
                     throw new ArgumentException();
-                }*/
+                }
             }
 
             //Check to see if operator stack is empty
             if (operators.Count != 0)
             {
-                if(values.Count != 2)
+                if (values.Count != 2)
                 {
                     throw new ArgumentException("More than 2 values when there are still operators.");
                 }
@@ -77,7 +96,8 @@ namespace FormulaEvaluator
                 }
             }
 
-            if(values.Count != 1)
+            //Check to make sure we have no other values
+            if (values.Count != 1)
             {
                 throw new ArgumentException("More than 1 value while there are no operators.");
             }
@@ -87,7 +107,14 @@ namespace FormulaEvaluator
 
 
         //TODO: Write comments for each of these methods
-        private static void checkInt(string s, Stack<string> operators, Stack<int> values)
+        /// <summary>
+        /// This method checks if the string is an integer, and if the top of the stack has a * or /, it will perform that operation and push it onto the stack
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="operators"></param> The current operator stack
+        /// <param name="values"></param> The current value stack
+        /// <returns></returns> Returns true if it is an integer
+        private static Boolean checkInt(string s, Stack<string> operators, Stack<int> values)
         {
             int tempNum;
 
@@ -99,13 +126,13 @@ namespace FormulaEvaluator
             //if the int is not parseable, throw this error
             catch (Exception e)
             {
-                return;
+                return false;
             }
 
             //check if it is * or /. If it is, do the operation right away
             string tempOper = " ";
             //make sure the stack has something
-            if(operators.Count != 0)
+            if (operators.Count != 0)
                 tempOper = operators.Peek();
 
             if (tempOper == "*")
@@ -129,26 +156,42 @@ namespace FormulaEvaluator
             {
                 values.Push(tempNum);
             }
+            return true;
         }
 
-        private static void checkVar(string s, Lookup variableEvaluator, Stack<string> operators, Stack<int> values)
+        /// <summary>
+        /// This method checks the string to see if it is a variable. If it is, runs the checkInt method.
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="variableEvaluator"></param> The delegate method to evaluate the variable
+        /// <param name="operators"></param> The current operator stack
+        /// <param name="values"></param> The current value stack
+        /// <returns></returns> Returns true if it was a variable and was an integer
+        private static Boolean checkVar(string s, Lookup variableEvaluator, Stack<string> operators, Stack<int> values)
         {
             //check to see if it's a variable
             try
             {
                 //if it is, do the checkInt method
-                checkInt(variableEvaluator(s).ToString(), operators, values);
+                return checkInt(variableEvaluator(s).ToString(), operators, values);
             }
             catch (Exception e)
             {
-                return;
+                return false;
             }
         }
 
-        private static void checkAddOrSub(string s, Stack<string> operators, Stack<int> values)
+        /// <summary>
+        /// This method checks if the string is a + or -, and will evaluate the expression if the previous operator was a + or - as well.
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="operators"></param> The current operator stack
+        /// <param name="values"></param> The current value stack
+        /// <returns></returns> Returns true if it is a + or -
+        private static Boolean checkAddOrSub(string s, Stack<string> operators, Stack<int> values)
         {
             if (s != "+" && s != "-")
-                return;
+                return false;
 
             string tempOpe = " ";
             if (operators.Count != 0)
@@ -160,7 +203,7 @@ namespace FormulaEvaluator
                 int tempV1 = values.Pop();
                 int tempV2 = values.Pop();
 
-                if(tempOpe == "+")
+                if (tempOpe == "+")
                 {
                     values.Push(tempV2 + tempV1);
                 }
@@ -172,21 +215,50 @@ namespace FormulaEvaluator
 
 
             operators.Push(s);
+            return true;
         }
 
-        private static void checkMulOrDiv(string s, Stack<string> operators)
+        /// <summary>
+        /// This method checks if the string is a * or /, and will push the operator on the stack
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="operators"></param> The current operator stack
+        /// <returns></returns> Returns true if it was a * or /
+        private static Boolean checkMulOrDiv(string s, Stack<string> operators)
         {
             if (s == "*" || s == "/")
+            {
                 operators.Push(s);
+                return true;
+            }
+            return false;
         }
 
-        private static void checkLeftPar(string s, Stack<string> operators)
+        /// <summary>
+        /// This method checks if the string is a (, and will push the operator onto the stack
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="operators"></param> The current operator stack
+        /// <returns></returns> Returns true if it was a (
+        private static Boolean checkLeftPar(string s, Stack<string> operators)
         {
             if (s == "(")
+            {
                 operators.Push(s);
+                return true;
+            }
+            return false;
         }
 
-        private static void checkRightPar(string s, Stack<string> operators, Stack<int> values)
+        /// <summary>
+        /// This method checks if the string is a ), and will then check if it is a + or - and perform the operator if needed. 
+        /// After, will make sure the next operator is a (, and then check if the next operator is a * or / and perform the operation if needed.
+        /// </summary>
+        /// <param name="s"></param> The string being evaluated
+        /// <param name="operators"></param> The current operator stack
+        /// <param name="values"></param> The current value stack
+        /// <returns></returns> Returns true if it was able to perform all of the operations
+        private static Boolean checkRightPar(string s, Stack<string> operators, Stack<int> values)
         {
             if (s == ")")
             {
@@ -235,7 +307,10 @@ namespace FormulaEvaluator
                     values.Push(values.Pop() / tempNum);
                     operators.Pop();
                 }
+
+                return true;
             }
+            return false;
         }
     }
 }
