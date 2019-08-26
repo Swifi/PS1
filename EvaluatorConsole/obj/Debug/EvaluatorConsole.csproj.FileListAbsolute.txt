@@ -1,0 +1,10 @@
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\bin\Debug\EvaluatorConsole.exe.config
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\bin\Debug\EvaluatorConsole.exe
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\bin\Debug\EvaluatorConsole.pdb
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\bin\Debug\FormulaEvaluator.dll
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\bin\Debug\FormulaEvaluator.pdb
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\obj\Debug\EvaluatorConsole.csprojAssemblyReference.cache
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\obj\Debug\EvaluatorConsole.csproj.CoreCompileInputs.cache
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\obj\Debug\EvaluatorConsole.csproj.CopyComplete
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\obj\Debug\EvaluatorConsole.exe
+C:\Users\nickh\eclipse-workspace\PS1\EvaluatorConsole\obj\Debug\EvaluatorConsole.pdb

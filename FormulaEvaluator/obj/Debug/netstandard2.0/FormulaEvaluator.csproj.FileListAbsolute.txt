@@ -1,0 +1,9 @@
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\bin\Debug\netstandard2.0\FormulaEvaluator.deps.json
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\bin\Debug\netstandard2.0\FormulaEvaluator.dll
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\bin\Debug\netstandard2.0\FormulaEvaluator.pdb
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.csprojAssemblyReference.cache
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.csproj.CoreCompileInputs.cache
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.AssemblyInfoInputs.cache
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.AssemblyInfo.cs
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.dll
+C:\Users\nickh\eclipse-workspace\PS1\FormulaEvaluator\obj\Debug\netstandard2.0\FormulaEvaluator.pdb
