@@ -130,11 +130,11 @@ namespace FormulaEvaluator
             }
 
             //check if it is * or /. If it is, do the operation right away
+
+            //make sure the operators stack has something
             string tempOper = " ";
-            //make sure the stack has something
-            if (operators.Count == 0)
-                throw new ArgumentException("No operators");
-            tempOper = operators.Peek();
+            if (operators.Count != 0)
+                tempOper = operators.Peek();
 
             if (tempOper == "*")
             {
