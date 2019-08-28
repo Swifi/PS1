@@ -106,7 +106,6 @@ namespace FormulaEvaluator
         }
 
 
-        //TODO: Write comments for each of these methods
         /// <summary>
         /// This method checks if the string is an integer, and if the top of the stack has a * or /, it will perform that operation and push it onto the stack
         /// </summary>
@@ -116,6 +115,7 @@ namespace FormulaEvaluator
         /// <returns></returns> Returns true if it is an integer
         private static Boolean checkInt(string s, Stack<string> operators, Stack<int> values)
         {
+            //create a temp number
             int tempNum;
 
             try
@@ -132,8 +132,9 @@ namespace FormulaEvaluator
             //check if it is * or /. If it is, do the operation right away
             string tempOper = " ";
             //make sure the stack has something
-            if (operators.Count != 0)
-                tempOper = operators.Peek();
+            if (operators.Count == 0)
+                throw new ArgumentException("No operators");
+            tempOper = operators.Peek();
 
             if (tempOper == "*")
             {
@@ -190,19 +191,27 @@ namespace FormulaEvaluator
         /// <returns></returns> Returns true if it is a + or -
         private static Boolean checkAddOrSub(string s, Stack<string> operators, Stack<int> values)
         {
+            //check if it is a + or -
             if (s != "+" && s != "-")
                 return false;
 
+            //check for if the previous operator is a + or -
             string tempOpe = " ";
             if (operators.Count != 0)
                 tempOpe = operators.Peek();
+            //if it is a + or -, we can go ahead and evaluate right away
             if (tempOpe == "+" || tempOpe == "-")
             {
-                //TODO: need to write error checking
+                //check to make sure we have enough values
+                if (values.Count < 2)
+                    throw new ArgumentException("Not enough values");
+
+                //pop ther operater and values
                 operators.Pop();
                 int tempV1 = values.Pop();
                 int tempV2 = values.Pop();
 
+                //do the maths
                 if (tempOpe == "+")
                 {
                     values.Push(tempV2 + tempV1);
@@ -213,7 +222,7 @@ namespace FormulaEvaluator
                 }
             }
 
-
+            //push the new operator on the stack, return true
             operators.Push(s);
             return true;
         }
@@ -226,6 +235,7 @@ namespace FormulaEvaluator
         /// <returns></returns> Returns true if it was a * or /
         private static Boolean checkMulOrDiv(string s, Stack<string> operators)
         {
+            //if it is a * or /, just add to the list
             if (s == "*" || s == "/")
             {
                 operators.Push(s);
@@ -242,6 +252,7 @@ namespace FormulaEvaluator
         /// <returns></returns> Returns true if it was a (
         private static Boolean checkLeftPar(string s, Stack<string> operators)
         {
+            //if there is a (, add to stack
             if (s == "(")
             {
                 operators.Push(s);
@@ -260,15 +271,24 @@ namespace FormulaEvaluator
         /// <returns></returns> Returns true if it was able to perform all of the operations
         private static Boolean checkRightPar(string s, Stack<string> operators, Stack<int> values)
         {
+            //check if we have a right )
             if (s == ")")
             {
+                //check to see if we have an operator. If not, throw
                 string tempOpe = " ";
-                if (operators.Count != 0)
-                    tempOpe = operators.Peek();
+                if (operators.Count == 0)
+                    throw new ArgumentException("No operators");
+                tempOpe = operators.Peek();
 
+                //if it is a + or -, continue to add or subtract the values inside the paranthesis
                 if (tempOpe == "+" || tempOpe == "-")
                 {
                     operators.Pop();
+
+                    //check to make sure we have enough values
+                    if (values.Count < 2)
+                        throw new ArgumentException("Not enough values");
+
                     int tempV1 = values.Pop();
                     int tempV2 = values.Pop();
 
@@ -281,12 +301,13 @@ namespace FormulaEvaluator
                         values.Push(tempV2 - tempV1);
                     }
                 }
-                //TODO: check for * or /
 
+                //make sure the next thing we pop is a (, otherwise just throw exception
                 tempOpe = operators.Pop();
                 if (tempOpe != "(")
                     throw new ArgumentException("No left paranthesis");
 
+                //Now, check to see if there is a * or / on the edge of these paranthesis.
                 tempOpe = operators.Peek();
                 //check if it is * or /. If it is, do the operation right away
                 if (tempOpe == "*")
@@ -308,8 +329,10 @@ namespace FormulaEvaluator
                     operators.Pop();
                 }
 
+                //return true if we were able to do this whole operation
                 return true;
             }
+            //return false if there was no )
             return false;
         }
     }
