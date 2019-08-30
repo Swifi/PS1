@@ -12,6 +12,12 @@ namespace FormulaEvaluator
 {
     public static class Evaluator
     {
+        /// <summary>
+        /// This Delegate finds if a variable is in the system, and will return its value if it is
+        /// If it is not in the system, throws ArgumentException
+        /// </summary>
+        /// <param name="v"></param> The string to be evaluated
+        /// <returns></returns> The value of the variable (if there is one)
         public delegate int Lookup(String v);
 
         public static int Evaluate(String exp, Lookup variableEvaluator)
@@ -28,7 +34,6 @@ namespace FormulaEvaluator
 
             foreach (string s in substrings)
             {
-                //TODO: add way for once we detect something has gone through to just skip to the next string
                 string temp = s.Trim();
                 //find out what we need to do with the variable
 
@@ -71,7 +76,7 @@ namespace FormulaEvaluator
                 //If it isn't whitespace, and it's not one of the others, throw an exception
                 else if (temp != "")
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException("Not a valid argument");
                 }
             }
 
@@ -82,6 +87,7 @@ namespace FormulaEvaluator
                 {
                     throw new ArgumentException("More than 2 values when there are still operators.");
                 }
+                //if there are values and operators left, evaluate them (will only be + or -)
                 string tempOpe = operators.Pop();
                 int tempV1 = values.Pop();
                 int tempV2 = values.Pop();
@@ -174,12 +180,34 @@ namespace FormulaEvaluator
             try
             {
                 //if it is, do the checkInt method
+                if (!isValidExpression(s))
+                    return false;
+
                 return checkInt(variableEvaluator(s).ToString(), operators, values);
             }
             catch (Exception e)
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// This method checks to make sure the variables are valid (A1, HGN352, K2913, etc.)
+        /// </summary>
+        /// <param name="s"></param> The string to be evaluated
+        /// <returns></returns> True if the string is a valid expression
+        private static bool isValidExpression(string s)
+        {
+            Regex re = new Regex(@"([a-zA-Z]+)(\d+)");
+            Match result = re.Match(s);
+
+            string alphaPart = result.Groups[1].Value;
+            string numberPart = result.Groups[2].Value;
+
+            if (alphaPart.Length + numberPart.Length != s.Length)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -306,6 +334,10 @@ namespace FormulaEvaluator
                 tempOpe = operators.Pop();
                 if (tempOpe != "(")
                     throw new ArgumentException("No left paranthesis");
+
+                //check to see if the operator count is 0. If it is, then just ignore this and return true
+                if (operators.Count == 0)
+                    return true;
 
                 //Now, check to see if there is a * or / on the edge of these paranthesis.
                 tempOpe = operators.Peek();
